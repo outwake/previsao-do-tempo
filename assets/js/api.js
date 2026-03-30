@@ -1,3 +1,5 @@
+import { obterClima } from "./climaService.js";
+
 // 🌙 Detecta se é dia ou noite
 function isDia() {
   const hora = new Date().getHours();
@@ -67,7 +69,7 @@ async function buscarClima() {
   const resultado = document.getElementById("resultado");
   const loader = document.getElementById("loader");
    console.log("CLIQUEI");
-  loader.classList.add("hidden");
+  loader.classList.remove("hidden");
 
   // esconde tela inicial
   document.getElementById("tela-inicial").classList.add("hidden");
@@ -76,67 +78,38 @@ async function buscarClima() {
   document.getElementById("tela-resultado").classList.remove("hidden");
 
   try {
-    // 📍 Buscar coordenadas
-    const cidadeFormatada = encodeURIComponent(cidade);
+  const { temperature, weathercode } = await obterClima(cidade);
 
-    const geoResponse = await fetch(
-  `https://geocoding-api.open-meteo.com/v1/search?name=${cidadeFormatada}`
-  );
-    const geoData = await geoResponse.json();
+  const climaInfo = traduzirClima(weathercode);
+  const icone = pegarIcone(weathercode);
 
-    if (!geoData.results) {
-      loader.classList.add("hidden");
-      resultado.classList.remove("hidden");
-      resultado.innerHTML = "❌ Cidade não encontrada, tente novamente";
-      return;
-    }
+  document.body.style.background = "";
+  document.body.style.backgroundImage = climaInfo.cor;
 
-    const { latitude, longitude, name, country } = geoData.results[0];
-
-    // 🌤️ Buscar clima
-    const climaResponse = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
-    );
-    const climaData = await climaResponse.json();
-
-    const temp = climaData.current_weather.temperature;
-    const code = climaData.current_weather.weathercode;
-
-    const climaInfo = traduzirClima(code);
-    const icone = pegarIcone(code);
-
-    // 🎨 Atualiza fundo
-    document.body.style.background = "";
-    document.body.style.backgroundImage = climaInfo.cor;
-
-    // 🧾 Renderiza resultado
-    resultado.innerHTML = `
+  resultado.innerHTML = `
     <div style="
-    background: rgba(255,255,255,0.2);
-    padding: 20px;
-    border-radius: 15px;
+      background: rgba(255,255,255,0.2);
+      padding: 20px;
+      border-radius: 15px;
     ">
-    <div class="card-temp">
-    <h1 class="temperatura">${temp}°C</h1>
+      <div class="card-temp">
+        <h1 class="temperatura">${temperature}°C</h1>
+      </div>
     </div>
-    </div>
-   <h2>${name}, ${country}</h2>
-  <img src="${icone}" class="icone-clima">
-  <div class="clima-info">
-    <p>${climaInfo.descricao}</p>
-  </div>
-`;
-    setTimeout(() => {resultado.classList.add("show");}, 50);
-    loader.classList.add("hidden");
-    resultado.classList.remove("hidden");
 
-  } catch (erro) {
-    loader.classList.add("hidden");
-    resultado.classList.remove("hidden");
-    resultado.innerHTML = "Erro ao buscar dados 😢";
-    console.error(erro);
-  }
+    <h2>${cidade}</h2>
+    <img src="${icone}" class="icone-clima">
+
+    <div class="clima-info">
+      <p>${climaInfo.descricao}</p>
+    </div>
+  `;
+
+} catch (erro) {
+  resultado.innerHTML = erro.message;
 }
+}
+
 
 // ⏎ Buscar com ENTER
 document.getElementById("cidade").addEventListener("keypress", function(e) {
@@ -153,3 +126,8 @@ function voltar() {
 
 // 🚀 Inicialização
 aplicarTemaPorHorario();
+
+window.buscarClima = buscarClima;
+window.voltar = voltar;
+document.getElementById("btn-buscar").addEventListener("click", buscarClima);
+document.getElementById("btn-voltar").addEventListener("click", voltar);
