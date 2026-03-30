@@ -1,0 +1,219 @@
+/* Reset do navegador*/
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+    outline: none;
+    
+}
+
+
+:root {
+    /* Cores Neutras */
+    --gray-200: #e8e8e8;
+    --gray-400: #505861;
+    --black: #171717;
+    --white: #FAF7FF;
+ 
+    /* Cores de Estado */
+    --error: #e63946;
+ 
+    /* Sombras */
+    --shadow-sm: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 0.25rem 0.75rem rgba(107, 54, 200, 0.3);
+    --shadow-lg: 0 0.5rem 1.5rem rgba(107, 54, 200, 0.2);
+ 
+    /* Espaçamentos */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    --spacing-2xl: 4rem;
+ 
+    /* Tamanhos de Fonte */
+    --text-sm: 0.75rem;
+    --text-base: 1rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 2rem;
+    --text-3xl: 2.5rem;
+ 
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 2rem;
+    --radius-full: 50%;
+ 
+    /* Animação Padrão */
+    --transition-default: all 0.3s ease;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.5s ease;
+}
+body.dark {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+}
+
+body.dark .card {
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+body.dark input {
+  background: #222;
+  color: #fff;
+}
+
+body.dark button {
+  background: #444;
+  color: #fff;
+}
+
+.app {
+  width: 100%;
+  max-width: 350px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  width: 500px;
+}
+
+#tela-inicial h1 {
+  margin-bottom: 20px;
+  font-size: var(--text-2xl);
+}
+
+.search {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #ddd;
+}
+
+.resultado {
+  margin-top: 15px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+.resultado.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.resultado p {
+  display: block;
+  margin-bottom: 20px;
+}
+
+#resultado h2{
+  margin-top: 1rem;
+}
+.resultado img {
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+  transition: 0.3s;
+}
+
+.resultado img:hover {
+  transform: scale(1.1);
+}
+
+.temperatura {
+  font-size: 70px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.temperatura:hover {
+  transform: scale(1.15);
+  text-shadow: 0 0 15px rgba(255,255,255,0.6);
+}
+
+.resultado style p{
+  margin-bottom: 4rem;
+}
+
+body.dark .temperatura:hover {
+  text-shadow: 0 0 20px rgba(255,255,255,0.9);
+}
+
+
+body.dark .temperatura {
+  color: #fff;
+}
+.btn-voltar {
+    margin-top: 20px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #4facfe;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-voltar:hover {
+  transform: scale(1.1);
+}
+
+#resultado {
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.icone-clima {
+  width: 80px;
+}
+
+.temperatura {
+  font-size: 70px;
+  font-weight: 700;
+}
+
+.clima-info {
+  margin-bottom: 20px;
+}
