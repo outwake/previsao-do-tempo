@@ -16,9 +16,6 @@
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
-
-  <body>
-
   <div class="app">
     <div class="card">
 
@@ -27,20 +24,19 @@
 
     <div class="search">
       <input type="text" id="cidade" placeholder="Digite a cidade...">
-      <button onclick="buscarClima()">Buscar</button>
+      <button id="btn-buscar">Buscar</button>
     </div>
   </div>
 
   <div id="tela-resultado" class="hidden">
     <div id="resultado"></div>
-    <button onclick="voltar()">🏠 Voltar</button>
+    <button id="btn-voltar">🏠 Voltar</button>
   </div>
 
-  <div id="loader" class="hidden">Carregando...</div>
+  <div id="loader" class="hidden"></div>
 
 </div>
 
-
-  <script src="./assets/js/api.js"></script>
+  <script type="module" src="./assets/js/api.js"></script>
 </body>
 </html>
