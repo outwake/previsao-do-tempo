@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <!-- Fontes do Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Fonte do Google - Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+   <title>Previsão do Tempo</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+
+  <body>
+
+  <div class="app">
+    <div class="card">
+
+  <div id="tela-inicial">
+    <h1>🌤️ Previsão do Tempo</h1>
+
+    <div class="search">
+      <input type="text" id="cidade" placeholder="Digite a cidade...">
+      <button onclick="buscarClima()">Buscar</button>
+    </div>
+  </div>
+
+  <div id="tela-resultado" class="hidden">
+    <div id="resultado"></div>
+    <button onclick="voltar()">🏠 Voltar</button>
+  </div>
+
+  <div id="loader" class="hidden">Carregando...</div>
+
+</div>
+
+
+  <script src="./assets/js/api.js"></script>
+</body>
+</html>
