@@ -54,13 +54,21 @@
     --transition-default: all 0.3s ease;
 }
 
+/* ✨ Configuração do corpo do site*/
 body {
   height: 100vh;
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
   display: flex;
   justify-content: center;
   align-items: center;
   transition: background 0.5s ease;
+  --cor1: #4facfe;
+  --cor2: #00f2fe;
+  --cor3: #43e97b;
+  --cor4: #38f9d7;
+
+  background: linear-gradient(-45deg, var(--cor1), var(--cor2), var(--cor3), var(--cor4));
+  background-size: 400% 400%;
+  animation: gradientWave 10s ease infinite;
 }
 body.dark {
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
@@ -81,11 +89,25 @@ body.dark button {
   color: #fff;
 }
 
+@keyframes gradientWave {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .app {
   width: 100%;
   max-width: 350px;
 }
 
+
+/*Configuração do card*/
 .card {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(15px);
@@ -130,6 +152,7 @@ button:hover {
   background: #ddd;
 }
 
+/* Seção Resultado*/
 .resultado {
   margin-top: 15px;
   opacity: 0;
