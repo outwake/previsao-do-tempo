@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
+  <div id="efeito-clima"></div>
   <div class="app">
     <div class="card">
 
@@ -30,12 +31,11 @@
 
   <div id="tela-resultado" class="hidden">
     <div id="resultado"></div>
-    <button id="btn-voltar">🏠 Voltar</button>
+    <button onclick="voltar()">🏠 Voltar</button>
   </div>
 
   <div id="loader" class="hidden">
   </div>
-
 </div>
 
   <script type="module" src="./assets/js/api.js"></script>

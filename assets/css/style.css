@@ -105,6 +105,16 @@ body.dark button {
   width: 100%;
   max-width: 350px;
 }
+#efeito-clima {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
 
 
 /*Configuração do card*/
@@ -117,6 +127,8 @@ body.dark button {
   color: white;
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   width: 500px;
+  position: relative;
+  z-index: 1;
 }
 
 #tela-inicial h1 {
@@ -182,9 +194,12 @@ button:hover {
 }
 
 .temperatura {
-  font-size: 70px;
+
   font-weight: 700;
-  transition: all 0.3s ease;
+  font-size: 60px;
+  text-align: center;
+  margin: 10px 0;
+  transition: transform 0.3s ease;
   cursor: pointer;
 }
 
@@ -193,9 +208,7 @@ button:hover {
   text-shadow: 0 0 15px rgba(255,255,255,0.6);
 }
 
-.resultado style p{
-  margin-bottom: 4rem;
-}
+
 
 body.dark .temperatura:hover {
   text-shadow: 0 0 20px rgba(255,255,255,0.9);
@@ -210,7 +223,7 @@ body.dark .temperatura {
   padding: 10px;
   border: none;
   border-radius: 10px;
-  background: #4facfe;
+  background: #505861;
   color: white;
   cursor: pointer;
   transition: 0.3s;
@@ -232,11 +245,158 @@ body.dark .temperatura {
   width: 80px;
 }
 
-.temperatura {
-  font-size: 70px;
-  font-weight: 700;
+.temperatura:hover {
+  transform: scale(1.1);
 }
-
 .clima-info {
   margin-bottom: 20px;
+}
+
+.weather-card {
+  background: transparent;
+  backdrop-filter: none;
+  padding: 0;
+  animation: fadeUp 0.6s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.weather-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+/*✨ 🔥 HOVER NOS CARDS*/
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.2);
+  padding: 12px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+.item span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.icon-small {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.item:hover {
+  transform: translateY(-5px) scale(1.03);
+  background: rgba(255,255,255,0.3);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.item strong {
+  display: block;
+  font-size: 16px;
+}
+
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+
+/* EFEITOS DE CLIMAS*/
+.chuva span {
+  position: absolute;
+  width: 2px;
+  height: 15px;
+  background: rgba(255,255,255,0.6);
+  animation: cair 0.8s linear infinite;
+  transform: rotate(20deg);
+
+}
+
+@keyframes cair {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.estrelas span {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: piscar 2s infinite;
+}
+
+@keyframes piscar {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+.sol {
+  background: radial-gradient(circle at 80% 20%, rgba(255,255,0,0.5), transparent 60%);
+  animation: brilho 3s ease-in-out infinite alternate;
+  filter: blur(20px);
+}
+
+@keyframes brilho {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+.raio {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+  opacity: 0;
+  animation: flash 10s infinite;
+}
+
+@keyframes flash {
+  0%, 95%, 100% { opacity: 0; }
+  96% { opacity: 0.8; }
+  97% { opacity: 0.2; }
+  98% { opacity: 0.9; }
+  99% { opacity: 0; }
 }
