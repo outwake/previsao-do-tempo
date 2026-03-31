@@ -1,3 +1,5 @@
+
+//🔍 Obter os dados do Clima pela API
 export async function obterClima(cidade) {
   if (!cidade) {
     throw new Error("Cidade obrigatória");

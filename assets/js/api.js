@@ -1,6 +1,6 @@
 import { obterClima } from "./climaService.js";
 
-// 🌙 Detecta se é dia ou noite
+// 🌙 Detecta se é dia ou noite 
 function isDia() {
   const hora = new Date().getHours();
   return hora >= 6 && hora < 18;
@@ -71,10 +71,10 @@ async function buscarClima() {
    console.log("CLIQUEI");
   loader.classList.remove("hidden");
 
-  // esconde tela inicial
+  // 📥 Esconde tela inicial
   document.getElementById("tela-inicial").classList.add("hidden");
 
-  // mostra resultado
+  // 💡 Mostra o resultado
   document.getElementById("tela-resultado").classList.remove("hidden");
 
   try {
@@ -97,7 +97,7 @@ async function buscarClima() {
       </div>
     </div>
 
-    <h2>${cidade}</h2>
+    <h2>${formatarCidade(cidade)}</h2>
     <img src="${icone}" class="icone-clima">
 
     <div class="clima-info">
@@ -111,6 +111,15 @@ async function buscarClima() {
 }
 
 
+// 📃 Formatação das palavras
+function formatarCidade(cidade) {
+  return cidade
+    .toLowerCase()
+    .split(" ")
+    .map(palavra => palavra.charAt(0).toUpperCase() + palavra.slice(1))
+    .join(" ");
+}
+
 // ⏎ Buscar com ENTER
 document.getElementById("cidade").addEventListener("keypress", function(e) {
   if (e.key === "Enter") {
@@ -118,7 +127,7 @@ document.getElementById("cidade").addEventListener("keypress", function(e) {
   }
 });
 
-//Função voltar
+//↩ Função voltar
 function voltar() {
   document.getElementById("tela-inicial").classList.remove("hidden");
   document.getElementById("tela-resultado").classList.add("hidden");
