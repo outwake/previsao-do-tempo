@@ -70,16 +70,38 @@ async function buscarClima() {
   const loader = document.getElementById("loader");
    console.log("CLIQUEI");
   loader.classList.remove("hidden");
+  resultado.innerHTML = "";
 
   // 📥 Esconde tela inicial
   document.getElementById("tela-inicial").classList.add("hidden");
 
   // 💡 Mostra o resultado
   document.getElementById("tela-resultado").classList.remove("hidden");
-
   try {
-  const { temperature, weathercode } = await obterClima(cidade);
+  const {
+  temperature,
+  weathercode,
+  temp_max,
+  temp_min,
+  umidade,
+  precipitacao,
+  windspeed,
+  time
+} = await obterClima(cidade);
 
+document.getElementById("efeito-clima").innerHTML = "";
+
+if (weathercode >= 95) {
+  criarChuva();
+  criarRaio();
+} else if (weathercode >= 60) {
+  criarChuva();
+} else if (!isDia()) {
+  criarEstrelas();
+  criarLua();
+} else {
+  criarSol();
+}
   const climaInfo = traduzirClima(weathercode);
   const icone = pegarIcone(weathercode);
 
@@ -87,29 +109,83 @@ async function buscarClima() {
   document.body.style.backgroundImage = climaInfo.cor;
 
   resultado.innerHTML = `
-    <div style="
-      background: rgba(255,255,255,0.2);
-      padding: 20px;
-      border-radius: 15px;
-    ">
-      <div class="card-temp">
-        <h1 class="temperatura">${temperature}°C</h1>
-      </div>
-    </div>
+  <div class="weather-card">
 
+    <h1 class="temperatura">${temperature}°C</h1>
     <h2>${formatarCidade(cidade)}</h2>
+
     <img src="${icone}" class="icone-clima">
 
-    <div class="clima-info">
-      <p>${climaInfo.descricao}</p>
+    <p class="descricao">${climaInfo.descricao}</p>
+    <p class="data">${formatarData(time)}</p>
+
+    <div class="weather-grid">
+
+      <div class="top">
+        <div class="item">
+          <span>
+            <img src="./assets/icons/wi-tempup.svg" class="icon-small">
+            Máx
+          </span>
+          <strong>${temp_max}°C</strong>
+        </div>
+
+        <div class="item">
+          <span>
+            <img src="./assets/icons/wi-tempdown.svg" class="icon-small">
+            Mín
+          </span>
+          <strong>${temp_min}°C</strong>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <div class="item">
+          <span>
+            <img src="./assets/icons/wi-raindrop.svg" class="icon-small">
+            Umidade
+          </span>
+          <strong>${umidade}%</strong>
+        </div>
+
+        <div class="item">
+          <span>
+            <img src="./assets/icons/wi-rain.svg" class="icon-small">
+            Chuva
+          </span>
+          <strong>${precipitacao}mm</strong>
+        </div>
+
+        <div class="item">
+          <span>
+            <img src="./assets/icons/wi-windy.svg" class="icon-small">
+            Vento
+          </span>
+          <strong>${windspeed} km/h</strong>
+        </div>
+      </div>
+
     </div>
-  `;
+  </div>
+`;
 
 } catch (erro) {
   resultado.innerHTML = erro.message;
 }
 }
 
+
+// Exibir a data
+function formatarData(dataISO) {
+  const data = new Date(dataISO);
+
+  return data.toLocaleDateString("pt-BR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+}
 
 // 📃 Formatação das palavras
 function formatarCidade(cidade) {
@@ -133,10 +209,70 @@ function voltar() {
   document.getElementById("tela-resultado").classList.add("hidden");
 }
 
+/* EFEITOS DE CLIMAS */
+function criarChuva() {
+  const container = document.getElementById("efeito-clima");
+  container.innerHTML = "";
+  container.className = "chuva";
+
+  for (let i = 0; i < 100; i++) {
+    const gota = document.createElement("span");
+    gota.style.left = Math.random() * 100 + "vw";
+    gota.style.animationDuration = (Math.random() * 0.5 + 0.5) + "s";
+    gota.style.left = Math.random() * 100 + "vw";
+    gota.style.transform = `rotate(${Math.random() * 20}deg)`;
+    container.appendChild(gota);
+  }
+}
+
+function criarEstrelas() {
+  const container = document.getElementById("efeito-clima");
+  container.innerHTML = "";
+  container.className = "estrelas";
+
+  for (let i = 0; i < 80; i++) {
+    const estrela = document.createElement("span");
+    estrela.style.top = Math.random() * 100 + "vh";
+    estrela.style.left = Math.random() * 100 + "vw";
+    container.appendChild(estrela);
+  }
+}
+
+function criarSol() {
+  const container = document.getElementById("efeito-clima");
+  container.innerHTML = "";
+  container.className = "sol";
+}
+
+function criarRaio() {
+  const container = document.getElementById("efeito-clima");
+  const raio = document.createElement("div");
+  raio.className = "raio";
+  container.appendChild(raio);
+}
+
+
+function criarLua() {
+  const container = document.getElementById("efeito-clima");
+
+  const lua = document.createElement("div");
+  lua.style.position = "absolute";
+  lua.style.top = "10%";
+  lua.style.right = "10%";
+  lua.style.width = "80px";
+  lua.style.height = "80px";
+  lua.style.borderRadius = "50%";
+  lua.style.background = "radial-gradient(circle, #fff, #ccc)";
+  lua.style.boxShadow = "0 0 20px rgba(255,255,255,0.8)";
+
+  container.appendChild(lua);
+}
+
 // 🚀 Inicialização
 aplicarTemaPorHorario();
 
 window.buscarClima = buscarClima;
 window.voltar = voltar;
+
 document.getElementById("btn-buscar").addEventListener("click", buscarClima);
 document.getElementById("btn-voltar").addEventListener("click", voltar);
