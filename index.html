@@ -12,6 +12,9 @@
       href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
       rel="stylesheet"
     />
+    <!-- Icone-->
+     <link rel="icon" type="image/svg+xml" href="./assets/icons/wi-day-cloudy.svg">
+    <meta name="robots" content="index, follow" />
    <title>🌚 Previsão do Tempo 🌞</title>
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
@@ -22,12 +25,11 @@
 
       <!-- ✅ tela-inicial separada -->
       <div id="tela-inicial">
-        <div id="titulo">
-        <img src="./assets/icons/wi-day-fog.svg" alt="">
-        <h1> Climax</h1>
-        <!-- <p>pre</p> -->
-        
-        </div>
+        <div class="logo-container">
+          <img src="./assets/icons/wi-day-cloudy.svg" class="logo-icone">
+           <h1 class="logo-titulo">Climax</h1>
+           <p class="logo-subtitulo">Previsão do tempo em tempo real</p>
+          </div>
 
         <div class="search">
           <input type="text" id="cidade" placeholder="Digite a cidade...">
@@ -64,6 +66,7 @@
       📊 Dados meteorológicos fornecidos por 
       <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a> sob licença <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a> .
     </p>
+    <p> 📄Desenvolvido por <a href="https://github.com/outwake" target="_blank">Lary, a Pioral ❤</a></p>
   </footer>
 
   <script type="module" src="./assets/js/api.js"></script>
