@@ -86,13 +86,20 @@ body {
 }
 
 body.dark {
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364) !important;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   animation: none !important; /* ✅ para a animação colorida do dia */
 }
 
+/* Card de noite — escuro */
 body.dark .card {
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Card de dia — claro */
+body:not(.dark) .card {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 body.dark input {
@@ -148,10 +155,22 @@ body.dark button {
   z-index: 1;
 }
 
+#titulo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
 #tela-inicial h1 {
   margin-bottom: 20px;
   font-size: var(--text-2xl);
 }
+
+ #tela-inicial img{
+  width: 100px;
+  filter: brightness(0) invert(1);
+  }
 
 .search {
   display: flex;
@@ -336,6 +355,7 @@ body.dark .temperatura {
   transform: translate(-50%, -50%);
   text-align: center;
   z-index: 10;
+  color: white;
 }
 
 .spinner {
@@ -601,8 +621,50 @@ button:hover {
   transform: scale(1.05);
 }
 
+.btn-principal,
+.btn-secundario {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.2) !important; /* ✅ força sempre glass */
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: 14px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
 
+/* ✅ garante que o dark mode não sobrescreva */
+body.dark .btn-principal,
+body.dark .btn-secundario {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+/* 🍞 Toast notification */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 999;
+  white-space: nowrap;
+}
 
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
 
 
 
@@ -687,6 +749,17 @@ button:hover {
   99% { opacity: 0; }
 }
 
+
+@media (max-width: 1024px) and (min-width: 481px) {
+  .card {
+    width: 600px;
+  }
+
+  .app {
+    max-width: 600px;
+  }
+}
+
 @media (max-width: 480px) {
    body {
     padding: 0;
@@ -701,7 +774,7 @@ button:hover {
 
   .search {
     flex-direction: row;
-    gap: 8px;
+    gap: 2px;
   }
 
   .search input {
@@ -714,6 +787,7 @@ button:hover {
     padding: 8px 12px;
     white-space: nowrap;
   }
+ 
 
   .fav-item {
     font-size: 10px;
