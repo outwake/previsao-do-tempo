@@ -30,7 +30,8 @@ export async function obterClima(cidade) {
 
   return {
     ...climaData.current_weather,
-    nomeOficial, // ✅ retorna o nome correto com acento
+    nomeOficial,
+    timezone: climaData.timezone, 
     temp_max: climaData.daily.temperature_2m_max[0],
     temp_min: climaData.daily.temperature_2m_min[0],
     umidade: climaData.hourly.relative_humidity_2m[indexValido] ?? "--",

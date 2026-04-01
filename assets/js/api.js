@@ -1,15 +1,25 @@
 import { obterClima } from "./climaService.js";
 
-// 🌙 Detecta se é dia ou noite
+// 🌙 Detecta se é dia ou noite (horário local do computador)
 function isDia() {
   const hora = new Date().getHours();
   return hora >= 6 && hora < 18;
 }
 
+// 🌙 Detecta se é dia ou noite no local pesquisado
+function isDiaNoLocal(timezone) {
+  const hora = new Date().toLocaleString("en-US", {
+    timeZone: timezone,
+    hour: "numeric",
+    hour12: false,
+  });
+  const h = parseInt(hora);
+  return h >= 6 && h < 18;
+}
+
 // 🌙 Aplica tema automaticamente
 function aplicarTemaPorHorario() {
   const hora = new Date().getHours();
-
   if (hora >= 6 && hora < 18) {
     document.body.classList.remove("dark");
   } else {
@@ -71,10 +81,10 @@ function traduzirClima(code) {
 }
 
 // 🌦️ Ícone
-function pegarIcone(code) {
-  if (code === undefined || code === null) return "./assets/icons/wi-day-sunny.svg"; // ✅ fallback
-  const dia = isDia();
-  
+function pegarIcone(code, dia = isDia()) {
+  if (code === undefined || code === null)
+    return "./assets/icons/wi-day-sunny.svg";
+
   const mapa = {
     0: dia
       ? "./assets/icons/wi-day-sunny.svg"
@@ -129,18 +139,29 @@ async function buscarClima() {
       precipitacao,
       windspeed,
       time,
-      previsao, nomeOficial, cidadeFormatadaa
+      previsao,
+      nomeOficial,
+      timezone,
     } = data;
 
+    // ✅ aplica tema baseado no horário local do local pesquisado
+    if (isDiaNoLocal(timezone)) {
+      document.body.classList.remove("dark");
+    } else {
+      document.body.classList.add("dark");
+    }
+
     // efeitos clima
-    document.getElementById("efeito-clima").innerHTML = "";
+    const efeito = document.getElementById("efeito-clima");
+    efeito.innerHTML = "";
+    efeito.className = "";
 
     if (weathercode >= 95) {
       criarChuva();
       criarRaio();
     } else if (weathercode >= 60) {
       criarChuva();
-    } else if (!isDia()) {
+    } else if (!isDiaNoLocal(timezone)) {
       criarEstrelas();
       criarLua();
     } else {
@@ -148,9 +169,10 @@ async function buscarClima() {
     }
 
     const climaInfo = traduzirClima(weathercode);
-    const icone = pegarIcone(weathercode);
+    const icone = pegarIcone(weathercode, isDiaNoLocal(timezone));
 
     document.body.style.background = climaInfo.cor;
+    document.body.style.animation = "none";
 
     resultado.innerHTML = `
       <div class="weather-card">
@@ -205,28 +227,34 @@ async function buscarClima() {
           </div>
 
         </div>
+
         <div class="previsao-container">
-      <h3 class="previsao-titulo">Próximos dias</h3>
-        <ul class="previsao-lista">
-        ${previsao
-          .map(
-            (dia) => `
-      <li class="previsao-item">
-        <span class="previsao-dia">${formatarDiaSemana(dia.data)}</span>
-        <img src="${pegarIcone(dia.weathercode)}" class="previsao-icone">
-        <span class="previsao-temps">
-          <strong>${dia.temp_max}°</strong>
-          <span class="temp-min">${dia.temp_min}°</span>
-        </span>
-      </li>
-    `,
-          )
-          .join("")}
-  </ul>
-</div>
+          <h3 class="previsao-titulo">Próximos dias</h3>
+          <ul class="previsao-lista">
+            ${previsao
+              .map(
+                (dia) => `
+              <li class="previsao-item">
+                <span class="previsao-dia">${formatarDiaSemana(dia.data)}</span>
+                <img src="${pegarIcone(dia.weathercode)}" class="previsao-icone">
+                <span class="previsao-temps">
+                  <strong>${dia.temp_max}°</strong>
+                  <span class="temp-min">${dia.temp_min}°</span>
+                </span>
+              </li>
+            `
+              )
+              .join("")}
+          </ul>
+        </div>
+
         <div class="acoes">
-          <button id="btn-voltar" class="btn-secundario"> <img src="./assets/icons/home-175.svg" alt=""></button>
-          <button id="btn-fav" class="btn-principal">  <img src="./assets/icons/favourite.svg" alt=""></button>
+          <button id="btn-voltar" class="btn-secundario">
+            <img src="./assets/icons/home-175.svg" alt="">
+          </button>
+          <button id="btn-fav" class="btn-principal">
+            <img src="./assets/icons/favourite.svg" alt="">
+          </button>
         </div>
       </div>
     `;
@@ -238,24 +266,37 @@ async function buscarClima() {
 
     document.getElementById("btn-voltar").addEventListener("click", voltar);
   } catch (erro) {
-  resultado.innerHTML = `
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 1px;">
-      <p>Erro ao buscar clima 😢 </br>
-      Tente novamente.</p> 
-      <div class="acoes" style="justify-content: center;">
-        <button id="btn-voltar" class="btn-secundario"> 
-          <img src="./assets/icons/home-175.svg" alt="" style="width:30px;height:30px;filter:brightness(0) invert(1);">
-        </button>
-      </div>
-    </div>`;
-  
-  document.getElementById("btn-voltar").addEventListener("click", voltar);
-  console.error(erro);
+    resultado.innerHTML = `
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 1px;">
+        <p>Erro ao buscar clima 😢 <br> Tente novamente.</p>
+        <div class="acoes" style="justify-content: center;">
+          <button id="btn-voltar" class="btn-secundario">
+            <img src="./assets/icons/home-175.svg" alt="" style="width:30px;height:30px;filter:brightness(0) invert(1);">
+          </button>
+        </div>
+      </div>`;
+
+    document.getElementById("btn-voltar").addEventListener("click", voltar);
+    console.error(erro);
   } finally {
     // loading OFF
     loader.classList.add("hidden");
     document.querySelector(".card").style.display = "block";
   }
+}
+
+// 🍞 NOTIFICAÇÃO TOAST
+function mostrarToast(mensagem) {
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.textContent = mensagem;
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.classList.add("show"), 10);
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
 }
 
 // ⭐ FAVORITOS
@@ -266,11 +307,13 @@ function salvarFavorito(cidade) {
     favoritos.push(cidade);
     localStorage.setItem("favoritos", JSON.stringify(favoritos));
     carregarFavoritos();
+    mostrarToast(`⭐ ${cidade} salvo nos favoritos!`);
+  } else {
+    mostrarToast(`${cidade} já está nos favoritos!`);
   }
 }
 
-
-//Remover FAVORITOS
+// Remover FAVORITOS
 function removerFavorito(cidade) {
   let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
   favoritos = favoritos.filter((c) => c !== cidade);
@@ -292,7 +335,7 @@ function carregarFavoritos() {
       <span class="fav-nome">${cidade}</span>
       <button class="remover" data-cidade="${cidade}">✖</button>
     </div>
-  `,
+  `
     )
     .join("");
 
@@ -311,7 +354,6 @@ function carregarFavoritos() {
   });
 }
 
-
 // 📅 FORMATAÇÕES
 function formatarData(dataISO) {
   const data = new Date(dataISO + "T12:00:00");
@@ -322,13 +364,18 @@ function formatarData(dataISO) {
     year: "numeric",
   });
 }
-//📅 Formatar dias da semana
+
+// 📅 Formatar dias da semana
 function formatarDiaSemana(dataISO) {
   const data = new Date(dataISO + "T12:00:00");
-  return data.toLocaleDateString("pt-BR", { weekday: "short", day: "numeric", month: "short" });
+  return data.toLocaleDateString("pt-BR", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+  });
 }
 
-// 📄FORMATAR NOME DE CIDADE
+// 📄 FORMATAR NOME DE CIDADE
 function formatarCidade(cidade) {
   return cidade
     .toLowerCase()
@@ -341,9 +388,10 @@ function formatarCidade(cidade) {
 function voltar() {
   document.getElementById("tela-inicial").classList.remove("hidden");
   document.getElementById("tela-resultado").classList.add("hidden");
+  aplicarTemaPorHorario(); // ✅ restaura o tema baseado no horário local ao voltar
+  document.body.style.background = "";
+  document.body.style.animation = "";
 }
-
-
 
 // 🌧️ EFEITOS
 function criarChuva() {
