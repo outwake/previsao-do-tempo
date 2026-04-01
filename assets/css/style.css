@@ -597,6 +597,17 @@ button:hover {
   justify-content: flex-end;
 }
 
+.previsao-clima {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.previsao-desc {
+  font-size: 10px;
+  margin-top: 2px;
+  opacity: 0.8;
+}
 .previsao-temps strong {
   color: #fff;
 }
