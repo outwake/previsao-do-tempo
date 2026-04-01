@@ -177,8 +177,9 @@ async function buscarClima() {
     resultado.innerHTML = `
       <div class="weather-card">
 
-        <h1 class="temperatura">${temperature}°C</h1>
         <h2>${nomeOficial}</h2>
+
+        <h1 class="temperatura">${temperature}°C</h1>
 
         <img src="${icone}" class="icone-clima">
 
@@ -238,8 +239,8 @@ async function buscarClima() {
                 <span class="previsao-dia">${formatarDiaSemana(dia.data)}</span>
                 <img src="${pegarIcone(dia.weathercode)}" class="previsao-icone">
                 <span class="previsao-temps">
-                  <strong>${dia.temp_max}°</strong>
-                  <span class="temp-min">${dia.temp_min}°</span>
+                    <span class="temp-max">↑ ${dia.temp_max}°</span>
+                    <span class="temp-min">↓ ${dia.temp_min}°</span>
                 </span>
               </li>
             `
