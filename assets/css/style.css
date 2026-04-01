@@ -10,9 +10,20 @@
     outline: none;
     
 }
-
-
 :root {
+    /* Paleta de Cores - Purple */
+    --purple-50: #f4eaff;
+    --purple-100: #e9dcfa;
+    --purple-200: #cdb3f0;
+    --purple-300: #b186e5;
+    --purple-400: #9460db;
+    --purple-500: #6b36c8;
+    --purple-600: #5b2ca0;
+    --purple-700: #4c2177;
+    --purple-800: #441f88;
+    --purple-900: #2a0e4d;
+    --purple-950: #1a0730;
+ 
     /* Cores Neutras */
     --gray-200: #e8e8e8;
     --gray-400: #505861;
@@ -56,10 +67,13 @@
 
 /* ✨ Configuração do corpo do site*/
 body {
-  height: 100vh;
+  
+  min-height: 100vh;
   display: flex;
   justify-content: center;
+  flex-direction: column; 
   align-items: center;
+  padding: 40px 0 20px 0;
   transition: background 0.5s ease;
   --cor1: #4facfe;
   --cor2: #00f2fe;
@@ -70,8 +84,10 @@ body {
   background-size: 400% 400%;
   animation: gradientWave 10s ease infinite;
 }
+
 body.dark {
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364) !important;
+  animation: none !important; /* ✅ para a animação colorida do dia */
 }
 
 body.dark .card {
@@ -102,8 +118,9 @@ body.dark button {
 }
 
 .app {
-  width: 100%;
-  max-width: 350px;
+ width: 100%;
+  max-width: 500px;
+  margin: auto; 
 }
 #efeito-clima {
   position: fixed;
@@ -164,13 +181,15 @@ button:hover {
   background: #ddd;
 }
 
-/* Seção Resultado*/
+/* Seção Resultado — CORRIGIDO: opacity começa em 1, visível por padrão */
 .resultado {
   margin-top: 15px;
-  opacity: 0;
-  transform: translateY(20px);
+  opacity: 1;                        /* ✅ era 0, agora começa visível */
+  transform: translateY(0);          /* ✅ sem deslocamento inicial */
   transition: all 0.5s ease;
 }
+
+/* Classe .show mantida para compatibilidade, mas agora é redundante */
 .resultado.show {
   opacity: 1;
   transform: translateY(0);
@@ -184,14 +203,7 @@ button:hover {
 #resultado h2{
   margin-top: 1rem;
 }
-.resultado img {
-  filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
-  transition: 0.3s;
-}
 
-.resultado img:hover {
-  transform: scale(1.1);
-}
 
 .temperatura {
 
@@ -214,12 +226,12 @@ body.dark .temperatura:hover {
   text-shadow: 0 0 20px rgba(255,255,255,0.9);
 }
 
-
+/*TEMA ESCURO*/
 body.dark .temperatura {
   color: #fff;
 }
 .btn-voltar {
-    margin-top: 20px;
+  margin-top: 20px;
   padding: 10px;
   border: none;
   border-radius: 10px;
@@ -241,17 +253,43 @@ body.dark .temperatura {
   display: none;
 }
 
+/* Ícone principal do clima */
 .icone-clima {
   width: 80px;
+  filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+  animation: flutuar 3s ease-in-out infinite, pulsar 3s ease-in-out infinite;
 }
 
-.temperatura:hover {
+.icone-clima:hover {
   transform: scale(1.1);
 }
+
+/* Ícones pequenos dos cards */
+.icon-small {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+  animation: pulsar 3s ease-in-out infinite;
+}
+
+/* 🎈 Flutuar — só no ícone principal */
+@keyframes flutuar {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* Pulsar fraco — glow que respira */
+@keyframes pulsar {
+  0%, 100% { filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(255,255,255,0.4)); }
+  50%       { filter: brightness(0) invert(1) drop-shadow(0 0 14px rgba(255,255,255,0.9)); }
+}
+
 .clima-info {
   margin-bottom: 20px;
 }
 
+/* 🃏 Cards*/
 .weather-card {
   background: transparent;
   backdrop-filter: none;
@@ -290,7 +328,116 @@ body.dark .temperatura {
   gap: 10px;
 }
 
-/*✨ 🔥 HOVER NOS CARDS*/
+/*🧶TELA DE LOADING*/
+#loader {
+  position: fixed;     
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255,255,255,0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: girar 1s linear infinite;
+  margin: 0 auto 10px;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+ .loading .card {
+  display: none;
+}
+
+
+/* 🌟 Favoritos*/
+#favoritos-container {
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.fav-title {
+  font-size: 11px;
+  opacity: 0.6;
+  display: block;
+  margin-bottom: 6px;
+}
+
+#favoritos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+/* chips estilo iOS */
+.fav-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  padding: 5px 10px;
+  border-radius: 20px;
+
+  background: rgba(255,255,255,0.15);
+  font-size: 11px;
+  backdrop-filter: blur(5px);
+
+  transition: all 0.2s ease;
+}
+
+.fav-item:hover {
+  transform: scale(1.05);
+  background: rgba(255,255,255,0.25);
+}
+
+/* botão remover mais discreto */
+.remover {
+  background: none;
+  border: none;
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+.remover:hover {
+  opacity: 1;
+}
+
+/*INFOS ADICIONAIS*/
+#infos {
+  position: static;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  z-index: 2; 
+  margin-top: 2rem;
+}
+
+#infos p {
+  margin-bottom: 5px;
+}
+
+#infos a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+
+/*✨ 🔥 HOVER NOS CARDS DAS INFOS*/
 .item {
   display: flex;
   flex-direction: column;
@@ -333,8 +480,144 @@ button:hover {
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
+/* Previsão dos próximos dias */
+.previsao-container {
+  width: 100%;
+  margin-top: 24px;
+}
+
+.previsao-titulo {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.previsao-lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.previsao-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 10px 16px;
+  transition: all 0.3s ease;
+}
+
+.previsao-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(4px);
+}
+
+.previsao-dia {
+  font-size: 0.85rem;
+  opacity: 0.85;
+  width: 110px;
+  text-align: left;
+  text-transform: capitalize;
+}
+
+.previsao-icone {
+  width: 28px;
+  height: 28px;
+  filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(255,255,255,0.5));
+  margin: 0 auto;
+}
+
+.previsao-temps {
+  display: flex;
+  gap: 10px;
+  font-size: 0.9rem;
+  width: 80px;         
+  justify-content: flex-end;
+}
+
+.previsao-temps strong {
+  color: #fff;
+}
+
+.temp-min {
+  opacity: 0.5;
+}
+
+
+/* 🚨 AÇÕES*/
+.acoes {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+  width: 30%;
+  background: transparent;
+}
+
+.acoes img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+  animation: pulsar 3s ease-in-out infinite;
+}
+
+/* 🏠 botão principal */
+.btn-principal {
+  flex: 1;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: white;
+  border: none;
+  padding: 10px 5px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-principal:hover {
+  transform: scale(1.05);
+}
+
+/* 🌟 botão secundário */
+.btn-secundario {
+  flex: 1;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  border: none;
+  padding: 10px 5px;
+  border-radius: 10px;
+  color: white;
+  transition: 0.3s;
+}
+
+.btn-secundario:hover {
+  transform: scale(1.05);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* EFEITOS DE CLIMAS*/
+
+/*CHUVA 🌧 */
 .chuva span {
   position: absolute;
   width: 2px;
@@ -359,6 +642,7 @@ button:hover {
   }
 }
 
+/* ⭐ EFEITOS DE ESTRELAS */
 .estrelas span {
   position: absolute;
   width: 2px;
@@ -373,6 +657,7 @@ button:hover {
   50% { opacity: 1; }
 }
 
+/*🌞 EFEITOS DE SOL*/
 .sol {
   background: radial-gradient(circle at 80% 20%, rgba(255,255,0,0.5), transparent 60%);
   animation: brilho 3s ease-in-out infinite alternate;
@@ -384,6 +669,7 @@ button:hover {
   to { opacity: 1; }
 }
 
+/*⚡ EFEITOS DE RAIOS*/
 .raio {
   position: absolute;
   width: 100%;
@@ -400,3 +686,4 @@ button:hover {
   98% { opacity: 0.9; }
   99% { opacity: 0; }
 }
+
