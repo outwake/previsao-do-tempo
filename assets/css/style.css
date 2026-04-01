@@ -687,3 +687,91 @@ button:hover {
   99% { opacity: 0; }
 }
 
+@media (max-width: 480px) {
+   body {
+    padding: 0;
+    align-items: center;    /* ✅ centraliza verticalmente */
+    min-height: 100vh;
+  }
+
+   #tela-inicial h1 {
+    font-size: 1.4rem;
+    margin-bottom: 14px;
+  }
+
+  .search {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .search input {
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+
+  .search button {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    white-space: nowrap;
+  }
+
+  .fav-item {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
+  #efeito-clima {
+    display: none; /* ✅ remove efeitos pesados no mobile */
+  }
+
+
+  .app {
+    width: 100%;
+    padding: 16px;          /* ✅ respiro nas laterais */
+  }
+
+  .card {
+    width: 100%;
+    min-width: unset;   /* ✅ remove qualquer min-width */
+    border-radius: 16px;
+    padding: 20px 16px;
+    box-sizing: border-box;
+  }
+
+  .temperatura {
+    font-size: 48px;
+  }
+
+  .bottom {
+    grid-template-columns: 1fr 1fr 1fr; /* mantém 3 colunas */
+    gap: 6px; /* ✅ reduz o gap para caber */
+  }
+
+  .item {
+    padding: 8px 4px; /* ✅ menos padding nos cards */
+    font-size: 0.75rem;
+  }
+
+  .item strong {
+    font-size: 13px;
+  }
+
+  .icon-small {
+    width: 18px;
+    height: 18px;
+  }
+
+  .previsao-dia {
+    width: 85px;
+    font-size: 0.72rem;
+  }
+
+  .previsao-temps {
+    font-size: 0.78rem;
+    width: 65px;
+  }
+
+  .previsao-item {
+    padding: 8px 12px;
+  }
+}
