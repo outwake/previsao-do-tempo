@@ -9,6 +9,7 @@ beforeEach(() => {
   fetch.mockClear();
 });
 
+// 1. Cidade válida retorna dados meteorológicos
 test("1. Cidade válida retorna dados meteorológicos", async () => {
   fetch
     .mockResolvedValueOnce({
@@ -27,6 +28,7 @@ test("1. Cidade válida retorna dados meteorológicos", async () => {
   expect(data.temperature).toBe(25);
 });
 
+// 2. Cidade inexistente lança exceção
 test("2. Cidade inexistente lança exceção", async () => {
   fetch.mockResolvedValueOnce({
     json: async () => ({})
@@ -36,11 +38,15 @@ test("2. Cidade inexistente lança exceção", async () => {
     .rejects.toThrow("Cidade não encontrada");
 });
 
+
+//3. Entrada vazia retorna erro
 test("3. Entrada vazia retorna erro", async () => {
   await expect(obterClima(""))
     .rejects.toThrow("Cidade obrigatória");
 });
 
+
+//4. Falha da API gera erro
 test("4. Falha da API gera erro", async () => {
   fetch.mockRejectedValueOnce(new Error("Erro de rede"));
 
@@ -48,6 +54,8 @@ test("4. Falha da API gera erro", async () => {
     .rejects.toThrow();
 });
 
+
+//5. Excesso de requisições deve ser bloqueado
 test("5. Excesso de requisições deve ser bloqueado", () => {
   expect(() => {
     for (let i = 0; i < 6; i++) {
@@ -56,6 +64,7 @@ test("5. Excesso de requisições deve ser bloqueado", () => {
   }).toThrow("Muitas requisições");
 });
 
+//6. Conexão lenta deve dar timeout
 test("6. Conexão lenta deve dar timeout", async () => {
   fetch.mockImplementation(() =>
     new Promise(resolve => setTimeout(resolve, 3000))
@@ -65,6 +74,7 @@ test("6. Conexão lenta deve dar timeout", async () => {
     .rejects.toThrow();
 });
 
+//7. API mudou formato e quebrou retorno
 test("7. API mudou formato e quebrou retorno", async () => {
   fetch
     .mockResolvedValueOnce({
@@ -74,7 +84,6 @@ test("7. API mudou formato e quebrou retorno", async () => {
     })
     .mockResolvedValueOnce({
       json: async () => ({
-        // ❌ sem current_weather
       })
     });
 
