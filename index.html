@@ -20,24 +20,48 @@
   <div class="app">
     <div class="card">
 
-  <div id="tela-inicial">
-    <h1>🌤️ Previsão do Tempo</h1>
+      <!-- ✅ tela-inicial separada -->
+      <div id="tela-inicial">
+        <h1>🌤️ Previsão do Tempo</h1>
 
-    <div class="search">
-      <input type="text" id="cidade" placeholder="Digite a cidade...">
-      <button id="btn-buscar">Buscar</button>
+        <div class="search">
+          <input type="text" id="cidade" placeholder="Digite a cidade...">
+          <button id="btn-buscar">Buscar</button>
+        </div>
+
+        <div id="favoritos-container">
+          <span class="fav-title">Favoritos</span>
+          <div id="favoritos"></div>
+        </div>
+      </div>
+    
+
+      <!-- ✅ tela-resultado agora é IRMÃ do tela-inicial, não filha -->
+      <div id="tela-resultado" class="hidden">
+        <div id="resultado" class="resultado"></div>
+      </div>
+
     </div>
+
+    <!-- ✅ loader fora do .card para aparecer mesmo quando o card some -->
+    <div id="loader" class="hidden">
+      <div class="spinner"></div>
+      <p>Buscando clima...</p>
+    </div>
+
   </div>
 
-  <div id="tela-resultado" class="hidden">
-    <div id="resultado"></div>
-    <button onclick="voltar()">🏠 Voltar</button>
-  </div>
-
-  <div id="loader" class="hidden">
-  </div>
-</div>
+  <footer id="infos">
+    <p>
+      🔒 Esta aplicação não coleta, armazena ou compartilha dados pessoais. As buscas são processadas em tempo real e não registradas.
+    </p>
+    <p>
+      📊 Dados meteorológicos fornecidos por 
+      <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a> sob licença <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+    </p>
+  </footer>
 
   <script type="module" src="./assets/js/api.js"></script>
+
 </body>
 </html>
