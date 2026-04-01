@@ -155,15 +155,8 @@ body.dark button {
   z-index: 1;
 }
 
-#titulo{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-}
 
 #tela-inicial h1 {
-  margin-bottom: 20px;
   font-size: var(--text-2xl);
 }
 
@@ -171,6 +164,45 @@ body.dark button {
   width: 100px;
   filter: brightness(0) invert(1);
   }
+
+  .logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+  }
+
+.logo-icone {
+  width: 80px;
+  height: 80px;
+  filter: brightness(0) invert(1) drop-shadow(0 0 12px rgba(255,255,255,0.8));
+  animation: flutuar 3s ease-in-out infinite;
+}
+
+.logo-titulo {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.6) 50%, #fff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: brilhoTexto 3s linear infinite;
+}
+
+.logo-subtitulo {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@keyframes brilhoTexto {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
 
 .search {
   display: flex;
@@ -184,6 +216,7 @@ input {
   border-radius: 10px;
   border: none;
   outline: none;
+  color: var(--gray-400);
 }
 
 button {
@@ -191,6 +224,7 @@ button {
   border: none;
   border-radius: 10px;
   background: white;
+  color: var(--gray-400);
   cursor: pointer;
   font-weight: bold;
   transition: 0.3s;
@@ -388,7 +422,7 @@ body.dark .temperatura {
 }
 
 .fav-title {
-  font-size: 11px;
+  font-size: 13px;
   opacity: 0.6;
   display: block;
   margin-bottom: 6px;
@@ -567,10 +601,14 @@ button:hover {
   color: #fff;
 }
 
-.temp-min {
-  opacity: 0.5;
+.temp-max {
+  color: #fff;
+  font-weight: 600;
 }
 
+.temp-min {
+  opacity: 0.9;
+}
 
 /* 🚨 AÇÕES*/
 .acoes {
@@ -773,16 +811,19 @@ body.dark .btn-secundario {
   }
 
   .search {
-    flex-direction: row;
-    gap: 2px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
   }
 
   .search input {
+    width: 90%;
     font-size: 0.85rem;
     padding: 8px 10px;
   }
 
   .search button {
+    width: 20%;
     font-size: 0.85rem;
     padding: 8px 12px;
     white-space: nowrap;
@@ -795,7 +836,7 @@ body.dark .btn-secundario {
   }
 
   #efeito-clima {
-    display: none; /* ✅ remove efeitos pesados no mobile */
+    display: none; /* ✅ remover efeitos pesados no mobile */
   }
 
 
@@ -806,7 +847,7 @@ body.dark .btn-secundario {
 
   .card {
     width: 100%;
-    min-width: unset;   /* ✅ remove qualquer min-width */
+    min-width: unset;   /* ✅ remover qualquer min-width */
     border-radius: 16px;
     padding: 20px 16px;
     box-sizing: border-box;
