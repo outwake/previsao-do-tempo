@@ -270,7 +270,10 @@ async function buscarClima() {
                 (dia) => `
               <li class="previsao-item">
                 <span class="previsao-dia">${formatarDiaSemana(dia.data)}</span>
-                <img src="${pegarIcone(dia.weathercode)}" class="previsao-icone">
+                <div class="previsao-clima">
+                  <img src="${pegarIcone(dia.weathercode)}" class="previsao-icone">
+                  <span class="previsao-desc">${traduzirClima(dia.weathercode).descricao}</span>
+                </div>
                 <span class="previsao-temps">
                     <span class="temp-max">↑ ${dia.temp_max}°</span>
                     <span class="temp-min">↓ ${dia.temp_min}°</span>
