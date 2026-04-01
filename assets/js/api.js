@@ -80,6 +80,37 @@ function traduzirClima(code) {
   );
 }
 
+//Sugestão de Lugares
+const cidadesSugestao = [
+  "Rio de Janeiro",
+  "São Paulo",
+  "Salvador",
+  "Buenos Aires",
+  "Santiago",
+  "Lisboa",
+  "Madrid",
+  "Paris",
+  "Roma",
+  "Londres",
+  "Berlim",
+  "Amsterdã",
+  "Dubai",
+  "Tokyo",
+  "Seul",
+  "Bangkok",
+  "Sydney",
+  "Toronto",
+  "New York",
+  "Los Angeles"
+  
+];
+
+const emojisClima = {
+  dia: "☀️",
+  noite: "🌙",
+  chuva: "🌧️"
+};
+
 // 🌦️ Ícone
 function pegarIcone(code, dia = isDia()) {
   if (code === undefined || code === null)
@@ -177,13 +208,15 @@ async function buscarClima() {
     resultado.innerHTML = `
       <div class="weather-card">
 
-        <h2>${nomeOficial}</h2>
+        <h2 style="font-weight: 700px">${nomeOficial}</h2>
 
         <h1 class="temperatura">${temperature}°C</h1>
 
         <img src="${icone}" class="icone-clima">
 
-        <p class="descricao">${climaInfo.descricao}</p>
+        <p class="descricao" 
+        style = "margin-bottom: 4px;
+                 font-weight: 800px ">${climaInfo.descricao}</p>
         <p class="data">${formatarData(time)}</p>
 
         <div class="weather-grid">
@@ -208,7 +241,7 @@ async function buscarClima() {
             <div class="item">
               <span>
               <img src="./assets/icons/wi-raindrop.svg" class="icon-small">
-              Umidade</span>
+                Umidade</span>
               <strong>${umidade}%</strong>
             </div>
 
@@ -376,14 +409,7 @@ function formatarDiaSemana(dataISO) {
   });
 }
 
-// 📄 FORMATAR NOME DE CIDADE
-function formatarCidade(cidade) {
-  return cidade
-    .toLowerCase()
-    .split(" ")
-    .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
-    .join(" ");
-}
+
 
 // ↩ VOLTAR
 function voltar() {
@@ -392,6 +418,7 @@ function voltar() {
   aplicarTemaPorHorario(); // ✅ restaura o tema baseado no horário local ao voltar
   document.body.style.background = "";
   document.body.style.animation = "";
+  criarBolhasCidades();
 }
 
 // 🌧️ EFEITOS
@@ -442,12 +469,44 @@ function criarLua() {
   c.appendChild(lua);
 }
 
+
+//Efeito de sugestão de lugares
+
+
+function criarBolhasCidades() {
+  const container = document.getElementById("efeito-clima");
+  container.innerHTML = "";
+  container.className = "bolhas-cidades";
+
+  for (let i = 0; i < 15; i++) {
+    const bolha = document.createElement("span");
+
+    // cidade aleatória
+    const cidade = cidadesSugestao[Math.floor(Math.random() * cidadesSugestao.length)];
+    bolha.textContent = cidade;
+    
+    // posição aleatória
+    bolha.style.left = Math.random() * 100 + "vw";
+    bolha.style.top = Math.random() * 100 + "vh";
+
+    // tempo aleatório
+    bolha.style.animationDuration = (Math.random() * 5 + 5) + "s";
+    bolha.style.animationDelay = (Math.random() * 5) + "s";
+
+    container.appendChild(bolha);
+  }
+}
+
+
+
 // 🚀 INIT
 aplicarTemaPorHorario();
 carregarFavoritos();
+criarBolhasCidades();
 
 document.getElementById("btn-buscar").addEventListener("click", buscarClima);
 
 document.getElementById("cidade").addEventListener("keypress", (e) => {
   if (e.key === "Enter") buscarClima();
 });
+
