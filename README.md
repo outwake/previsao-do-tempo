@@ -8,6 +8,7 @@ Aplicação web simples e elegante que consome uma API de clima para exibir a pr
 
 * 🔍 Busca de cidade
 * 🌡️ Exibição da temperatura atual
+* 📅 Exibição da previsão dos próximos dias
 * 🌙 Tema automático (dia/noite)
 * 🎨 Fundo dinâmico baseado no clima
 * ⚠️ Tratamento de erros (cidade inválida, falha de API, etc.)
@@ -92,7 +93,7 @@ Foram criados testes para cenários reais:
 
 <img src="./assets/img/Screenshot 2026-03-31 120823.png" alt="">
 
----
+----
 
 ## 💡 Melhorias futuras
 
