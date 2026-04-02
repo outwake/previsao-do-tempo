@@ -32,15 +32,15 @@ function traduzirClima(code) {
   const mapa = {
     0: {
       descricao: "Céu limpo",
-      cor: "linear-gradient(135deg, #f6d365, #fda085)",
+      cor: "linear-gradient(135deg, #b8982f, #b3644e)",
     },
     1: {
       descricao: "Quase limpo",
-      cor: "linear-gradient(135deg, #89f7fe, #66a6ff)",
+      cor: "linear-gradient(135deg, #57bbc2, #426faf)",
     },
     2: {
       descricao: "Parcialmente nublado",
-      cor: "linear-gradient(135deg, #bdc3c7, #2c3e50)",
+      cor: "linear-gradient(135deg, #8f969b, #2c3e50)",
     },
     3: {
       descricao: "Nublado",
@@ -48,7 +48,7 @@ function traduzirClima(code) {
     },
     45: {
       descricao: "Névoa",
-      cor: "linear-gradient(135deg, #606c88, #3f4c6b)",
+      cor: "linear-gradient(135deg, #4a5672, #3f4c6b)",
     },
     61: {
       descricao: "Chuva leve",
@@ -56,7 +56,7 @@ function traduzirClima(code) {
     },
     63: {
       descricao: "Chuva moderada",
-      cor: "linear-gradient(135deg, #4b79a1, #283e51)",
+      cor: "linear-gradient(135deg, #416b91, #23384b)",
     },
     65: {
       descricao: "Chuva forte",
@@ -64,7 +64,7 @@ function traduzirClima(code) {
     },
     80: {
       descricao: "Pancadas de chuva",
-      cor: "linear-gradient(135deg, #3a7bd5, #3a6073)",
+      cor: "linear-gradient(135deg, #2e5ea1, #305061)",
     },
     95: {
       descricao: "Tempestade",
@@ -105,11 +105,6 @@ const cidadesSugestao = [
   
 ];
 
-const emojisClima = {
-  dia: "☀️",
-  noite: "🌙",
-  chuva: "🌧️"
-};
 
 // 🌦️ Ícone
 function pegarIcone(code, dia = isDia()) {
