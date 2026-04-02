@@ -75,10 +75,10 @@ body {
   align-items: center;
   padding: 40px 0 20px 0;
   transition: background 0.5s ease;
-  --cor1: #4facfe;
-  --cor2: #00f2fe;
-  --cor3: #43e97b;
-  --cor4: #38f9d7;
+  --cor1: #397cb8;
+  --cor2: #10a1a8;
+  --cor3: #33aa5b;
+  --cor4: #2bb49b;
 
   background: linear-gradient(-45deg, var(--cor1), var(--cor2), var(--cor3), var(--cor4));
   background-size: 400% 400%;
@@ -234,11 +234,11 @@ button:hover {
   background: #ddd;
 }
 
-/* Seção Resultado — CORRIGIDO: opacity começa em 1, visível por padrão */
+/* Seção Resultado — */
 .resultado {
   margin-top: 15px;
-  opacity: 1;                        /* ✅ era 0, agora começa visível */
-  transform: translateY(0);          /* ✅ sem deslocamento inicial */
+  opacity: 1;                        
+  transform: translateY(0);        
   transition: all 0.5s ease;
 }
 
